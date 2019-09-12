@@ -1,0 +1,203 @@
+<!doctype html>
+<html>
+<head>
+    <!--声明当前页面的编码集：charset=gbk,gb2312(中文编码),utf-8(国际编码)-->
+    <meta http-equiv="content-Type" content="text/html" charset="utf-8">
+    <title>html国际化标准 </title>
+    <meta name="keyworld" content="关键词,关键词">
+    <meta name="description" content="">
+    <!--js/css-->
+    <style type="text/css">
+        body{
+            color:#f2f2f2;
+            margin:0 auto;
+            width:946px;
+            position:relative;
+            background:url(../public/images/back-content.jpg) #000 center top no-repeat;
+            overflow:hidden;
+        }
+        a{text-decoration:none;color:;}
+        ul,li{list-style:none;}
+        body{font-size:16px;font-family:微软雅黑;}
+        input[type='button'],input[type='submit']{padding:5px;}
+        input[type='text']:focus{padding:10px;width:150px;}
+        input[type='password']:focus{padding:5px;width:150px;}
+        select{padding:5px;}
+        h5{color:red;}
+        #location{width:640px;margin:50px 35%;}
+
+    </style>
+
+</head>
+<body>
+<div id='location'>
+    <form id='person' action = '' method = 'post' onsubmit='return func()'>
+
+        <p>用户名：<input type='text' name='username'/><h5></h5></p>
+        <p>密码：<input type='password' name='password'/><h5></h5></p>
+
+        <p>性别：
+            <label><input type='radio' name='sex' value='男'/>男</label>
+            <label><input type='radio' name='sex' value='女'/>女</label>
+        <h5></h5>
+        </p>
+
+        <p>兴趣爱好
+            <label><input type='checkbox' name='hobby' title='书法'/>书法</label>
+            <label><input type='checkbox' name='hobby' title='运动'/>运动</label>
+            <label><input type='checkbox' name='hobby' title='下棋'/>下棋</label>
+            <label><input type='checkbox' name='hobby' title='弹琴'/>弹琴</label>
+        <h5></h5>
+        </p>
+
+        <p>自我介绍<textarea cols='20' rows='5' id='text'></textarea>
+        <h5></h5>
+        </p>
+        <p>
+            所在地：
+            <select id='selection'>
+                <option value='001' selected='selected'>--请选择--</option>
+                <option value='002'>江西</option>
+                <option value='003'>上海</option>
+                <option value='004'>广东</option>
+                <option value='005'>北京</option>
+                <select>
+                    <h5></h5>
+        </p>
+        <p><input type='submit' value='提交'/>
+            <input type='button' value='提交'/></p>
+    </form>
+
+    <a href="index.html">返回主页</a>
+</div>
+
+
+<script>
+
+    function $(id){
+        return document.getElementById(id);
+    }
+    function $1(i,str){
+        document.getElementsByTagName('h5')[i].innerHTML = str;
+    }
+
+
+    function func(){
+        var personDom = $('person')
+        var user = personDom.username.value;
+        var password = personDom.password.value;
+        var sexDom = personDom.sex;
+        document.getElementsByTagName('h5').innerHTML= '';
+
+
+
+
+//验证用户名和密码
+
+
+        if(user==''){
+            //		$1('h5')[0].innerHTML= '请输入用户名...';
+            $1(0,'请输入用户名...');
+
+            personDom.username.focus();
+            //	alert('请输入用户名');
+            return false;
+        }
+
+        if(password==''){
+            //		$1('h5')[1].innerHTML= '请输入密码...';
+            $1(1,'请输入密码...');
+            personDom.password.focus();
+            //	alert('请输入用户名');
+            return false;
+        }
+        if(password.length<6){
+            $1(1,'密码不小于6个字符...');
+            personDom.password.focus();
+            return false;
+        }
+
+
+//验证性别
+        var chose = 0;
+        for (var i = 0 ; i < sexDom.length; i++)
+        {
+            if (sexDom[i].checked)
+            {
+                chose = true;
+                break;
+            }
+        }
+
+        if(!chose)
+        {
+//			$1('h5')[2].innerHTML='请选择性别...';
+            $1(2,'请选择性别...');
+
+            return false;
+        }
+
+
+//验证复选框
+        var checks = '';
+        var arr = [];
+        var checkDoms = personDom.hobby;
+        for (var i = 0; i<checkDoms.length ;i++ )
+        {
+            if(checkDoms[i].checked){
+                checks = true;
+                arr.push(checkDoms[i].title);
+            }
+        }
+
+        if(!checks){
+//			$1('h5')[3].innerHTML = '请选择爱好...';
+            $1(3,'请选择爱好...');
+            return false;
+        }
+
+
+
+//验证textarea
+
+        var content = $('text').value;
+        if(!content){
+            $1(4,'请做自我介绍...');
+            return false;
+        }
+
+
+//验证选择地址框
+
+        //获得当前选中框的索引
+        var index = $('selection').selectedIndex;
+        //获得当前选中框的option
+        var option = $('selection').options[index];
+
+        var values = option.value;
+
+        if(values == '001'){
+
+//		$1('h5')[5].innerHTML='请选择省份...';
+            $1(5,'请选择省份...');
+
+            return false;
+        }
+        else{
+            //获得当前选中框的option
+            var name = option.text;
+            alert(values+'=='+name);
+        }
+
+        return true;
+    }
+
+
+
+
+
+</script>
+
+
+</body>
+</html>
